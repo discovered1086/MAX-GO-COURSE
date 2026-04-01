@@ -6,56 +6,62 @@ func main() {
 	accountBalance := 1000.0
 
 	fmt.Println("Welcome to Dummy Banking")
-	fmt.Println("What do you want to do today?")
-	fmt.Println("1. Deposit Money")
-	fmt.Println("2. Withdraw Money")
-	fmt.Println("3. Check Balance")
-	fmt.Println("4. Exit Application")
 
-	choice := inputChoice()
+	for {
+		fmt.Println("What do you want to do today?")
+		fmt.Println("1. Deposit Money")
+		fmt.Println("2. Withdraw Money")
+		fmt.Println("3. Check Balance")
+		fmt.Println("4. Exit Application")
 
-	userWantsBalance := choice == 3
-	userWantsDeposit := choice == 1
-	userWantsWithdraw := choice == 2
-	userWantsToExit := choice == 4
+		choice := inputChoice()
 
-	if userWantsBalance {
-		fmt.Println("Your balance is ", accountBalance)
-	} else if userWantsDeposit {
-		var depositAmount float64
-		fmt.Print("Please enter deposit amount: ")
-		fmt.Scan(&depositAmount)
+		userWantsBalance := choice == 3
+		userWantsDeposit := choice == 1
+		userWantsWithdraw := choice == 2
+		userWantsToExit := choice == 4
 
-		//Validate deposit amount
-		if depositAmount <= 0 {
-			fmt.Println("Invalid deposit amount")
-			return
+		if userWantsToExit {
+			fmt.Println("Exiting Application")
+			break
+		} else if userWantsBalance {
+			fmt.Println("Your balance is ", accountBalance)
+		} else if userWantsDeposit {
+			var depositAmount float64
+			fmt.Print("Please enter deposit amount: ")
+			fmt.Scan(&depositAmount)
+
+			//Validate deposit amount
+			if depositAmount <= 0 {
+				fmt.Println("Invalid deposit amount")
+				continue
+			}
+			accountBalance += depositAmount
+			fmt.Println("Deposit successfully completed! Your balance is ", accountBalance)
+		} else if userWantsWithdraw {
+			var withdrawAmount float64
+			fmt.Print("Please enter withdrawal amount: ")
+			fmt.Scan(&withdrawAmount)
+
+			//Check account balance
+			if withdrawAmount <= 0 {
+				fmt.Println("Invalid Withdrawal amount")
+				continue
+			}
+
+			if withdrawAmount > accountBalance {
+				fmt.Println("Insufficient funds")
+				continue
+			}
+			accountBalance -= withdrawAmount
+			fmt.Println("Withdrawal successfully completed! Your balance is ", accountBalance)
+		} else {
+			fmt.Println("Invalid choice, try again")
+			choice = inputChoice()
 		}
-		accountBalance += depositAmount
-		fmt.Println("Deposit successfully completed! Your balance is ", accountBalance)
-	} else if userWantsWithdraw {
-		var withdrawAmount float64
-		fmt.Print("Please enter withdrawal amount: ")
-		fmt.Scan(&withdrawAmount)
-
-		//Check account balance
-		if withdrawAmount <= 0 {
-			fmt.Println("Invalid Withdrawal amount")
-			return
-		}
-
-		if withdrawAmount > accountBalance {
-			fmt.Println("Insufficient funds")
-			return
-		}
-		accountBalance -= withdrawAmount
-		fmt.Println("Withdrawal successfully completed! Your balance is ", accountBalance)
-	} else if userWantsToExit {
-		fmt.Println("Exiting Application")
-	} else {
-		fmt.Println("Invalid choice, try again")
-		choice = inputChoice()
 	}
+
+	fmt.Println("Thank you for choosing our bank..!!")
 }
 
 func inputChoice() int {
