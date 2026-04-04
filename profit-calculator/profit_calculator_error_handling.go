@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 // Goals
@@ -17,22 +16,26 @@ import (
 func writeValueToFile(beforeTaxEarnings, profit, ratio float64) {
 	fileName := "profit_calculator_error_handling.txt"
 
-	fileValue := "Before tax earnings: " +
-		strconv.FormatFloat(beforeTaxEarnings, 'f', 2, 64) +
-		"\nProfit: " + strconv.FormatFloat(profit, 'f', 2, 64) +
-		"\nRatio: " + strconv.FormatFloat(ratio, 'f', 2, 64)
+	//fileValue := "Before tax earnings: " +
+	//	strconv.FormatFloat(beforeTaxEarnings, 'f', 2, 64) +
+	//	"\nProfit: " + strconv.FormatFloat(profit, 'f', 2, 64) +
+	//	"\nRatio: " + strconv.FormatFloat(ratio, 'f', 2, 64)
+
+	fileValue := fmt.Sprintf(
+		"Before tax earnings: %.2f\nProfit %.2f\nRatio %.2f",
+		beforeTaxEarnings, profit, ratio)
 
 	os.WriteFile(fileName, []byte(fileValue), 0644)
 }
 func main() {
 	fmt.Println("Starting the profit calculator program")
 
-	revenue, err := getInput("Enter revenue amount: ")
-	taxRate, err := getInput("Enter tax rate: ")
-	expenses, err := getInput("Enter expenses amount: ")
+	revenue, err1 := getInput("Enter revenue amount: ")
+	taxRate, err2 := getInput("Enter tax rate: ")
+	expenses, err3 := getInput("Enter expenses amount: ")
 
-	if err != nil {
-		fmt.Println(err)
+	if err1 != nil || err2 != nil || err3 != nil {
+		fmt.Println("Errors encountered while parsing input")
 		panic("Exiting the application due to an error")
 	}
 
