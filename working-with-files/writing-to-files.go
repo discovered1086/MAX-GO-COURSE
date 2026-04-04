@@ -1,28 +1,46 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"strconv"
 )
 
+const filename = "balances.txt"
+
 func writeBalanceToFile(balance float64) {
-	filename := "balances.txt"
 	balanceString := fmt.Sprintf("%.2f", balance) //Convert balance to a string
 
 	//Permission 0644 means owner of the file can read from or write to the file
 	os.WriteFile(filename, []byte(balanceString), 0644)
 }
 
-func readBalanceFromFile() float64 {
-	filename := "balances.txt"
-	bytes, _ := os.ReadFile(filename)
-	
+func readBalanceFromFile() (float64, error) {
+	bytes, err := os.ReadFile(filename)
+
+	if err != nil {
+		return 0.0, errors.New("failed to read balance from a file")
+	}
+
+	balanceString := string(bytes)
+	balance, err := strconv.ParseFloat(balanceString, 64)
+
+	if err != nil {
+		return 0.0, errors.New("failed to parse balance from a file")
+	}
+	return balance, nil
 }
 
 func main() {
-	accountBalance := 1000.0
+	accountBalance, err := readBalanceFromFile()
 
 	fmt.Println("Welcome to Dummy Banking")
+
+	if err != nil {
+		fmt.Println("ERROR: Banking is not available now. Please try again")
+		//panic("Banking is not available now.")
+	}
 
 	for {
 		fmt.Println("What do you want to do today?")
