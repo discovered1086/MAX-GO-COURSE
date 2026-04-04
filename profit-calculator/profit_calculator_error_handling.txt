@@ -1,0 +1,3 @@
+Before tax earnings: 5000.00
+Profit 4775.00
+Ratio 1.05
