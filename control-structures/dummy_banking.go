@@ -14,7 +14,7 @@ func main() {
 		fmt.Println("3. Check Balance")
 		fmt.Println("4. Exit Application")
 
-		choice := inputChoice()
+		choice := inputChoiceUpdated()
 
 		userWantsBalance := choice == 3
 		userWantsDeposit := choice == 1
@@ -64,7 +64,7 @@ func main() {
 	fmt.Println("Thank you for choosing our bank..!!")
 }
 
-func inputChoice() int {
+func inputChoiceUpdated() int {
 	var choice int
 	fmt.Print("Please enter your choice: ")
 	fmt.Scan(&choice)
